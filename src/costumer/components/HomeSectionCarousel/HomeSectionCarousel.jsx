@@ -1,67 +1,36 @@
-import React, { useState } from "react";
-import AliceCarousel from "react-alice-carousel";
+import React from "react";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 import HomeSectionCard from "../HomeSectionCard/HomeSectionCard";
-import { Button } from "@mui/material";
-import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
+import { cpu } from "../../../Data/Cpu";
 
 const HomeSectionCarousel = () => {
-
-    const [activeIndex,setActiveInex]= useState(0);
   const responsive = {
-    0: { items: 1 },
-    720: { items: 3 },
-    1024: { items: 5 },
+    superLargeDesktop: {
+      breakpoint: { max: 4000, min: 3000 },
+      items: 6,
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 5.5,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+    },
   };
-  const slidePrev=()=>setActiveInex(activeIndex-1);
-  const slideNext=()=>setActiveInex(activeIndex+1);
 
-  const syncActiveIndex=({item})=>setActiveInex(item);
-
-  const items = [1, 1, 1,1,1,1,1,1,1,1, 1, 1].map((item) => <HomeSectionCard />);
-  return (
-    <div className="  ">
-      <div className="relative p-5 ">
-        <AliceCarousel
-          items={items}
-          disableButtonsControls
-          autoPlayInterval={1000}
-          infinite
-          responsive={responsive}
-          disableDotsControls
-          onSlideChange={syncActiveIndex}
-          activeIndex={activeIndex}
-        />
-        <Button
-          variant="contained"
-          className="z-50"
-          sx={{
-            position: "absolute",
-            top: "8rem",
-            right: "0rem",
-            transform: "translateX(50%) rotate(90deg) ",
-            bgcolor: "white",
-          }}
-          ria-label="next"
-        >
-          <ArrowLeftIcon sx={{ transform: "rotate(90deg)", color: "black" }} />
-        </Button>
-        <Button
-          variant="contained"
-          className="z-50"
-          sx={{
-            position: "absolute",
-            top: "8rem",
-            left: "0rem",
-            transform: "translateX(-50%) rotate(-90deg) ",
-            bgcolor: "white",
-          }}
-          ria-label="next"
-        >
-          <ArrowLeftIcon sx={{ transform: "rotate(90deg)", color: "black" }} />
-        </Button>
-      </div>
+  const items = cpu.splice(0, 10).map((item, index) => (
+    <div key={index}>
+      <HomeSectionCard product={item} />
     </div>
-  );
+  ));
+
+  return <Carousel responsive={responsive}>{items}</Carousel>;
 };
 
 export default HomeSectionCarousel;
